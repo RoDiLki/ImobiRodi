@@ -1,3 +1,6 @@
+@extends('admin.master.master')
+
+@section('content')
 <section class="dash_content_app">
 
     <header class="dash_content_app_header">
@@ -12,12 +15,12 @@
                 </ul>
             </nav>
 
-            <a href="dashboard.php?app=users/create" class="btn btn-orange icon-user ml-1">Criar Cliente</a>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-orange icon-user ml-1">Criar Cliente</a>
             <button class="btn btn-green icon-search icon-notext ml-1 search_open"></button>
         </div>
     </header>
 
-    <?php include('filter.php'); ?>
+    @include('admin.users.filter')
 
     <div class="dash_content_app_box">
         <div class="dash_content_app_box_stage">
@@ -44,3 +47,4 @@
         </div>
     </div>
 </section>
+@endsection

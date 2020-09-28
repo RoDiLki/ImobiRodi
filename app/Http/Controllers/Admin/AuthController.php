@@ -11,6 +11,9 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::check()){
+            return redirect()->route('admin.home');
+        }
         return view('admin.index');
     }
 
@@ -42,9 +45,26 @@ class AuthController extends Controller
             return response()->json($ret);
         }
 
+        $this->authenticated($req->getClientIp());
+
         $ret['success'] = true;
         $ret['redirect'] = route('admin.home');
         return response()->json($ret);
 
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('admin.login');
+    }
+
+    private function authenticated(string $ip){
+        $user =  User::where('id', Auth::user()->id);
+        $user->update([
+            'last_login_at' => date('Y-m-d H:i:s'),
+            'last_login_ip' => $ip
+        ]);
+    }
+
 }
